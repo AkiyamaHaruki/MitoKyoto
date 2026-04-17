@@ -1,6 +1,8 @@
 package com.mito.kyoto.data.repository
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -20,22 +22,33 @@ class SettingsRepository(private val context: Context) {
         context.dataStore.edit { prefs ->
             prefs[languageKey] = languageCode
         }
-        LocaleManager.applyLanguage(context, languageCode)
+        applyLanguage(languageCode)
     }
 
-    fun getLanguageFlow(): Flow<String> {
-        return context.dataStore.data.map { prefs ->
-            prefs[languageKey] ?: LocaleManager.LANG_JA // 默认日语
+    private fun applyLanguage(languageCode: String) {
+        val localeList = when (languageCode) {
+            LocaleManager.LANG_JA -> LocaleListCompat.forLanguageTags("ja")
+            LocaleManager.LANG_ZH_TW -> LocaleListCompat.forLanguageTags("zh-TW")
+            LocaleManager.LANG_EN -> LocaleListCompat.forLanguageTags("en")
+            else -> LocaleListCompat.forLanguageTags("ja")
         }
+        AppCompatDelegate.setApplicationLocales(localeList)
     }
 
-    suspend fun getCurrentLanguage(): String {
-        return context.dataStore.data.map { prefs ->
+    suspend fun initLanguage() {
+        val savedLanguage = context.dataStore.data.map { prefs ->
             prefs[languageKey] ?: LocaleManager.LANG_JA
         }.let { flow ->
             var value = LocaleManager.LANG_JA
             flow.collect { value = it }
             value
+        }
+        applyLanguage(savedLanguage)
+    }
+
+    fun getLanguageFlow(): Flow<String> {
+        return context.dataStore.data.map { prefs ->
+            prefs[languageKey] ?: LocaleManager.LANG_JA
         }
     }
 }
