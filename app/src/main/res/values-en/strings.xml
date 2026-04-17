@@ -27,4 +27,12 @@
     <string name="about_version">Version 1.0.0</string>
     <string name="about_copyright">© 2026 Mito Kyoto Technology</string>
     <string name="close">Close</string>
+    <string name="friends_title">Friends</string>
+<string name="friends_tab_friends">Friends</string>
+<string name="friends_tab_requests">Requests</string>
+<string name="friends_search_hint">Search friends...</string>
+<string name="friends_accept">Accept</string>
+<string name="friends_decline">Decline</string>
+<string name="friends_no_requests">No requests</string>
+<string name="friends_add">Add Friend</string>
 </resources>

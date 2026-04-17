@@ -27,4 +27,12 @@
     <string name="about_version">バージョン 1.0.0</string>
     <string name="about_copyright">© 2026 Mito Kyoto Technology</string>
     <string name="close">閉じる</string>
+    <string name="friends_title">友達</string>
+<string name="friends_tab_friends">友達</string>
+<string name="friends_tab_requests">申請</string>
+<string name="friends_search_hint">友達を検索...</string>
+<string name="friends_accept">承認</string>
+<string name="friends_decline">拒否</string>
+<string name="friends_no_requests">申請はありません</string>
+<string name="friends_add">友達追加</string>
 </resources>
