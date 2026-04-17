@@ -8,6 +8,13 @@
     <string name="home_official_page">官方主頁</string>
     <string name="community_title">社群</string>
     <string name="friends_title">好友</string>
+    <string name="friends_tab_friends">好友</string>
+    <string name="friends_tab_requests">申請</string>
+    <string name="friends_search_hint">搜尋好友...</string>
+    <string name="friends_accept">接受</string>
+    <string name="friends_decline">拒絕</string>
+    <string name="friends_no_requests">暫無申請</string>
+    <string name="friends_add">新增好友</string>
     <string name="profile_title">我的頁面</string>
     <string name="profile_content_section">內容</string>
     <string name="profile_favorites">收藏</string>
@@ -27,12 +34,4 @@
     <string name="about_version">版本 1.0.0</string>
     <string name="about_copyright">© 2026 Mito Kyoto Technology</string>
     <string name="close">關閉</string>
-    <string name="friends_title">好友</string>
-<string name="friends_tab_friends">好友</string>
-<string name="friends_tab_requests">申請</string>
-<string name="friends_search_hint">搜尋好友...</string>
-<string name="friends_accept">接受</string>
-<string name="friends_decline">拒絕</string>
-<string name="friends_no_requests">暫無申請</string>
-<string name="friends_add">新增好友</string>
 </resources>
