@@ -1,5 +1,7 @@
 package com.mito.kyoto.ui.profile
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +32,6 @@ fun ProfileScreen() {
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
 
-    // 获取当前语言显示名称
     val currentLanguageCode = remember {
         context.getSharedPreferences("app_settings", android.content.Context.MODE_PRIVATE)
             .getString("app_language", "ja") ?: "ja"
@@ -107,10 +108,14 @@ fun ProfileScreen() {
             currentLanguage = currentLanguageCode,
             onLanguageSelected = { code ->
                 (context as? MainActivity)?.let { activity ->
-                    MainActivity.saveLanguageAndRecreate(activity, code)
-                    Toast.makeText(context, "再起動します...", Toast.LENGTH_SHORT).show()
+                    MainActivity.saveLanguage(activity, code)
+                    Toast.makeText(context, "言語設定を保存しました。\n2秒後にアプリを終了します。", Toast.LENGTH_LONG).show()
+                    showLanguageDialog = false
+                    // 延迟2秒后退出应用
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        activity.finishAffinity()
+                    }, 2000)
                 }
-                showLanguageDialog = false
             },
             onDismiss = { showLanguageDialog = false }
         )
