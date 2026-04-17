@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mito.kyoto.app-mergeDebugResources-67:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "/data/data/vn.vhn.vsc/files/home/.gradle/caches/transforms-3/de93f60af65512303e825d2638092422/transformed/jetified-core-splashscreen-1.0.1/res/values-night-v8/values-night-v8.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "85",
+                        "endOffsets": "136"
+                    }
+                }
+            ]
+        }
+    ]
+}

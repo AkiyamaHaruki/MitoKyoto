@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.mito.kyoto.app-mergeDebugResources-67:/values-v31/values-v31.xml",
+            "map": [
+                {
+                    "source": "/data/data/vn.vhn.vsc/files/home/.gradle/caches/transforms-3/de93f60af65512303e825d2638092422/transformed/jetified-core-splashscreen-1.0.1/res/values-v31/values-v31.xml",
+                    "from": {
+                        "startLines": "2,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,473",
+                        "endLines": "8,13",
+                        "endColumns": "12,12",
+                        "endOffsets": "468,697"
+                    }
+                }
+            ]
+        }
+    ]
+}
