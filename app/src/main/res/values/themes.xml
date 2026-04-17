@@ -1,15 +1,17 @@
 <resources>
-    <!-- 主应用主题 -->
+    <!-- 启动页主题（使用SplashScreen API） -->
+    <style name="Theme.MitoKyoto.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <!-- 设置启动图标（可以是矢量动画或静态图） -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <!-- 启动后恢复的主题（用于MainActivity） -->
+        <item name="postSplashScreenTheme">@style/Theme.MitoKyoto</item>
+    </style>
+
+    <!-- 主应用主题（Compose用） -->
     <style name="Theme.MitoKyoto" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:navigationBarColor">@android:color/white</item>
-    </style>
-
-    <!-- 启动页主题 -->
-    <style name="Theme.MitoKyoto.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/Theme.MitoKyoto</item>
     </style>
 </resources>

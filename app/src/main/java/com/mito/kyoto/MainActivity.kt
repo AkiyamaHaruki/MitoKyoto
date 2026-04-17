@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -23,38 +24,21 @@ import com.mito.kyoto.ui.friends.FriendsScreen
 import com.mito.kyoto.ui.home.HomeScreen
 import com.mito.kyoto.ui.profile.ProfileScreen
 import com.mito.kyoto.ui.theme.MitoKyotoTheme
-import java.io.File
-import java.io.FileOutputStream
-import java.io.PrintWriter
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 安装启动画面（必须在 super.onCreate 和 setContent 之前调用）
+        val splashScreen = installSplashScreen()
+        
         super.onCreate(savedInstanceState)
         
-        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
-            saveCrashLog(throwable)
-            android.os.Process.killProcess(android.os.Process.myPid())
-        }
+        // 可选：保持启动画面直到某些数据加载完成（这里我们让它自动过渡）
+        splashScreen.setKeepOnScreenCondition { false }
         
         setContent {
             MitoKyotoTheme {
                 MainApp()
             }
-        }
-    }
-    
-    private fun saveCrashLog(throwable: Throwable) {
-        try {
-            val logFile = File(getExternalFilesDir(null), "crash_log.txt")
-            val fos = FileOutputStream(logFile, true)
-            val pw = PrintWriter(fos)
-            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            pw.println("========== ${sdf.format(Date())} ==========")
-            throwable.printStackTrace(pw)
-            pw.close()
-        } catch (_: Exception) {
         }
     }
 }
@@ -70,10 +54,10 @@ fun MainApp() {
         bottomBar = {
             NavigationBar {
                 val items = listOf(
-                    NavigationItem("主页", "home", Icons.Default.Home),
+                    NavigationItem("主頁", "home", Icons.Default.Home),
                     NavigationItem("社区", "community", Icons.Default.Public),
-                    NavigationItem("好友", "friends", Icons.Default.People),
-                    NavigationItem("我的", "profile", Icons.Default.Person)
+                    NavigationItem("友達", "friends", Icons.Default.People),
+                    NavigationItem("自分", "profile", Icons.Default.Person)
                 )
                 items.forEach { item ->
                     NavigationBarItem(
