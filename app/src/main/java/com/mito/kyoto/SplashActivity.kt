@@ -1,3 +1,10 @@
+/*    override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    // 直接跳转主界面，不加载视频
+    startActivity(Intent(this, MainActivity::class.java))
+    finish()
+    }*/
+
 package com.mito.kyoto
 
 import android.content.Intent
@@ -15,21 +22,12 @@ class SplashActivity : AppCompatActivity() {
     private var hasNavigated = false
     private val handler = Handler(Looper.getMainLooper())
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    // 直接跳转主界面，不加载视频
-    startActivity(Intent(this, MainActivity::class.java))
-    finish()
-}
-
-/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
         videoView = findViewById(R.id.videoView)
 
-        // 设置视频源
         val videoUri = Uri.parse("android.resource://$packageName/${R.raw.logo_animation}")
         videoView.setVideoURI(videoUri)
 
@@ -43,19 +41,16 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
 
         videoView.setOnErrorListener { _, what, extra ->
-            // 视频播放出错时直接跳转
             navigateToMain()
             true
         }
 
-        // 超时保护：无论视频是否准备好，5秒后强制跳转
         handler.postDelayed({
             if (!hasNavigated) {
                 navigateToMain()
             }
         }, 5000)
     }
-*/
 
     private fun navigateToMain() {
         if (hasNavigated) return
