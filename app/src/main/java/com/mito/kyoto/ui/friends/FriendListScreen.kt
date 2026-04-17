@@ -15,6 +15,7 @@ import com.mito.kyoto.R
 import com.mito.kyoto.data.local.entities.UserEntity
 import com.mito.kyoto.ui.components.FriendListItem
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FriendListScreen(viewModel: FriendsViewModel) {
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -23,7 +24,6 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
     val isSearching = searchQuery.isNotBlank()
     
     Column(modifier = Modifier.fillMaxSize()) {
-        // 简单搜索栏（替代 SearchBar）
         OutlinedTextField(
             value = searchQuery,
             onValueChange = viewModel::onSearchQueryChange,
@@ -39,8 +39,7 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
                     }
                 }
             },
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors()
+            singleLine = true
         )
         
         LazyColumn(
