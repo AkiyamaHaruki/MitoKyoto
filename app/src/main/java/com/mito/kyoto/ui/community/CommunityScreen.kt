@@ -151,6 +151,7 @@ fun BannerCarousel(banners: List<BannerItem>) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryTabs(
     categories: List<String>,
@@ -163,8 +164,9 @@ fun CategoryTabs(
         contentColor = MaterialTheme.colorScheme.primary,
         edgePadding = 16.dp,
         indicator = { tabPositions ->
+            // 使用简单的默认指示器，不依赖 tabIndicatorOffset
             TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[categories.indexOf(selectedCategory)]),
+                modifier = Modifier,
                 height = 3.dp,
                 color = MaterialTheme.colorScheme.primary
             )
