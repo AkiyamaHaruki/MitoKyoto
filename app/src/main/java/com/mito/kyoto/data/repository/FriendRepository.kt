@@ -1,6 +1,7 @@
 package com.mito.kyoto.data.repository
 
 import com.mito.kyoto.data.local.dao.UserDao
+import com.mito.kyoto.data.local.dao.FriendRequestWithUser
 import com.mito.kyoto.data.local.entities.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -10,7 +11,6 @@ import javax.inject.Singleton
 class FriendRepository @Inject constructor(
     private val userDao: UserDao
 ) {
-    // 当前登录用户ID (临时模拟，后续应从登录系统获取)
     private val currentUserId = "user_001"
     
     fun searchUsers(query: String): Flow<List<UserEntity>> = 
@@ -35,14 +35,11 @@ class FriendRepository @Inject constructor(
     suspend fun acceptFriendRequest(requestId: Long) {
         val request = userDao.getRequestById(requestId) ?: return
         if (request.toUserId == currentUserId && request.status == RequestStatus.PENDING) {
-            // 1. 更新申请状态
             userDao.updateFriendRequest(request.copy(status = RequestStatus.ACCEPTED))
-            // 2. 建立双向好友关系
             val friendship1 = FriendshipEntity(userId = request.fromUserId, friendId = request.toUserId)
             val friendship2 = FriendshipEntity(userId = request.toUserId, friendId = request.fromUserId)
             userDao.addFriend(friendship1)
             userDao.addFriend(friendship2)
-            // 3. 确保双方用户信息存在
             ensureUserExists(request.fromUserId, "Friend_${request.fromUserId}")
         }
     }
@@ -67,7 +64,6 @@ class FriendRepository @Inject constructor(
         }
     }
     
-    // 初始化当前用户和示例数据 (用于演示)
     suspend fun initializeDemoData() {
         ensureUserExists(currentUserId, "秋山 陽")
         val demoUsers = listOf(
@@ -78,7 +74,6 @@ class FriendRepository @Inject constructor(
         )
         demoUsers.forEach { userDao.insertUser(it) }
         
-        // 预先建立一些好友关系
         if (!userDao.isFriend(currentUserId, "user_002")) {
             userDao.addFriend(FriendshipEntity(currentUserId, "user_002"))
             userDao.addFriend(FriendshipEntity("user_002", currentUserId))
@@ -88,7 +83,6 @@ class FriendRepository @Inject constructor(
             userDao.addFriend(FriendshipEntity("user_003", currentUserId))
         }
         
-        // 创建一个待处理申请示例
         val pendingRequest = FriendRequestEntity(
             fromUserId = "user_004",
             toUserId = currentUserId,

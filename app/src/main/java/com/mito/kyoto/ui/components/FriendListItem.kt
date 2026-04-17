@@ -1,5 +1,6 @@
 package com.mito.kyoto.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -23,15 +24,37 @@ fun FriendListItem(
     onDeleteFriend: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ListItem(
-        headlineContent = {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { /* 跳转到用户详情 */ }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // 头像
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = user.name.take(1),
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontSize = 20.sp
+            )
+        }
+        
+        Spacer(modifier = Modifier.width(12.dp))
+        
+        // 名称和状态
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = user.name,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp
             )
-        },
-        supportingContent = {
             if (!user.statusMessage.isNullOrEmpty()) {
                 Text(
                     text = user.statusMessage,
@@ -39,34 +62,18 @@ fun FriendListItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-        },
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = user.name.take(1),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 20.sp
+        }
+        
+        // 操作按钮
+        if (!isFriend) {
+            IconButton(onClick = onAddFriend) {
+                Icon(
+                    Icons.Default.PersonAdd,
+                    contentDescription = "Add Friend",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
-        },
-        trailingContent = {
-            if (!isFriend) {
-                IconButton(onClick = onAddFriend) {
-                    Icon(
-                        Icons.Default.PersonAdd,
-                        contentDescription = "Add Friend",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-        },
-        modifier = modifier.clickable { /* 跳转到用户详情 */ }
-    )
+        }
+    }
     Divider(modifier = Modifier.padding(horizontal = 16.dp))
 }

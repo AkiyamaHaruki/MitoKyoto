@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mito.kyoto.R
 
@@ -35,14 +36,13 @@ fun FriendsScreen(
                             IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
                                 Icon(Icons.Default.Search, contentDescription = "Search")
                             }
-                            IconButton(onClick = { /* TODO: 添加好友 */ }) {
+                            IconButton(onClick = { /* TODO */ }) {
                                 Icon(Icons.Default.Add, contentDescription = "Add Friend")
                             }
                         }
                     }
                 )
                 
-                // Tab 切换
                 TabRow(
                     selectedTabIndex = selectedTab.ordinal,
                     containerColor = MaterialTheme.colorScheme.surface,

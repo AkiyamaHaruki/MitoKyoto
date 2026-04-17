@@ -4,9 +4,17 @@ import androidx.room.*
 import com.mito.kyoto.data.local.entities.*
 import kotlinx.coroutines.flow.Flow
 
+data class FriendRequestWithUser(
+    @Embedded val request: FriendRequestEntity,
+    @Relation(
+        parentColumn = "fromUserId",
+        entityColumn = "userId"
+    )
+    val fromUser: UserEntity
+)
+
 @Dao
 interface UserDao {
-    // 用户操作
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserEntity)
     
@@ -16,7 +24,6 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE name LIKE '%' || :query || '%' OR userId LIKE '%' || :query || '%'")
     fun searchUsers(query: String): Flow<List<UserEntity>>
 
-    // 好友关系操作
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFriend(friendship: FriendshipEntity)
     
@@ -30,7 +37,6 @@ interface UserDao {
     @Query("SELECT EXISTS(SELECT 1 FROM friendships WHERE userId = :userId AND friendId = :friendId)")
     suspend fun isFriend(userId: String, friendId: String): Boolean
 
-    // 好友申请操作
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFriendRequest(request: FriendRequestEntity)
     
@@ -48,13 +54,3 @@ interface UserDao {
     @Query("SELECT * FROM friend_requests WHERE requestId = :requestId")
     suspend fun getRequestById(requestId: Long): FriendRequestEntity?
 }
-
-// 用于获取带用户信息的好友申请
-data class FriendRequestWithUser(
-    @Embedded val request: FriendRequestEntity,
-    @Relation(
-        parentColumn = "fromUserId",
-        entityColumn = "userId"
-    )
-    val fromUser: UserEntity
-)

@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,28 +23,26 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
     val isSearching = searchQuery.isNotBlank()
     
     Column(modifier = Modifier.fillMaxSize()) {
-        // 搜索栏
-        SearchBar(
-            query = searchQuery,
-            onQueryChange = viewModel::onSearchQueryChange,
-            onSearch = { /* 已通过onQueryChange实时搜索 */ },
-            active = isSearching,
-            onActiveChange = { if (!it) viewModel.clearSearch() },
+        // 简单搜索栏（替代 SearchBar）
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = viewModel::onSearchQueryChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             placeholder = { Text(stringResource(R.string.friends_search_hint)) },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             trailingIcon = {
-                if (isSearching) {
+                if (searchQuery.isNotBlank()) {
                     IconButton(onClick = { viewModel.clearSearch() }) {
                         Icon(Icons.Default.Clear, contentDescription = "Clear")
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            // 搜索建议（可留空）
-        }
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors()
+        )
         
-        // 好友列表
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp)
@@ -58,7 +57,6 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
                     )
                 }
             } else {
-                // 可以添加分组，例如"好友"、"群组"等，此处简化为单一列表
                 items(friends, key = { it.userId }) { user ->
                     FriendListItem(
                         user = user,

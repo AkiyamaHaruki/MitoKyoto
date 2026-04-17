@@ -3,7 +3,7 @@ package com.mito.kyoto.ui.friends
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mito.kyoto.data.local.entities.UserEntity
-import com.mito.kyoto.data.local.entities.FriendRequestWithUser
+import com.mito.kyoto.data.local.dao.FriendRequestWithUser
 import com.mito.kyoto.data.repository.FriendRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
