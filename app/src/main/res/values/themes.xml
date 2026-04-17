@@ -1,17 +1,16 @@
 <resources>
-<style name="Theme.FullScreenSplash" parent="Theme.MaterialComponents.Light.NoActionBar">
-    <!-- 隐藏标题栏和状态栏，实现全屏 -->
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowFullscreen">true</item>
-    <!-- 确保内容延伸到系统栏区域 -->
-    <item name="android:windowTranslucentStatus">true</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-</style>
-
-    <!-- 主应用主题（Compose用） -->
+    <!-- 普通应用主题（用于 MainActivity） -->
     <style name="Theme.MitoKyoto" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:navigationBarColor">@android:color/white</item>
+    </style>
+
+    <!-- 全屏启动页主题（用于 SplashActivity） -->
+    <style name="Theme.FullScreenSplash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>
