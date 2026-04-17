@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             // 使用一个递增的 key 来强制重组整个 Compose 树
-            var refreshKey by remember { mutableIntStateOf(0) }
+            var refreshKey by remember { mutableStateOf(0) }
             
             // 监听语言变化，每次语言切换后 refreshKey 加 1，触发完全重组
             LaunchedEffect(Unit) {
