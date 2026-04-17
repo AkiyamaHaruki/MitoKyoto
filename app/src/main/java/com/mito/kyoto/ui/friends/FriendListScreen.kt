@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mito.kyoto.R
-import com.mito.kyoto.data.local.entities.UserEntity
 import com.mito.kyoto.ui.components.FriendListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,7 +21,7 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
     val friends by viewModel.friends.collectAsState()
     val searchResults by viewModel.searchResults.collectAsState()
     val isSearching = searchQuery.isNotBlank()
-    
+
     Column(modifier = Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = searchQuery,
@@ -41,7 +40,7 @@ fun FriendListScreen(viewModel: FriendsViewModel) {
             },
             singleLine = true
         )
-        
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp)

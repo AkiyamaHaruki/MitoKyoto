@@ -13,11 +13,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mito.kyoto.R
-import com.mito.kyoto.data.local.dao.FriendRequestWithUser
+import com.mito.kyoto.ui.friends.SimpleFriendRequest
 
 @Composable
 fun FriendRequestItem(
-    request: FriendRequestWithUser,
+    request: SimpleFriendRequest,
     onAccept: (Long) -> Unit,
     onDecline: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -51,27 +51,27 @@ fun FriendRequestItem(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
-                    if (!request.request.message.isNullOrEmpty()) {
+                    if (!request.message.isNullOrEmpty()) {
                         Text(
-                            text = request.request.message,
+                            text = request.message,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(onClick = { onDecline(request.request.requestId) }) {
+                TextButton(onClick = { onDecline(request.requestId) }) {
                     Text(stringResource(R.string.friends_decline))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Button(onClick = { onAccept(request.request.requestId) }) {
+                Button(onClick = { onAccept(request.requestId) }) {
                     Text(stringResource(R.string.friends_accept))
                 }
             }

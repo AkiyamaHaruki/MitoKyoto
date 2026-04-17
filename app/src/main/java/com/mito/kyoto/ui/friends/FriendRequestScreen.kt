@@ -15,7 +15,7 @@ import com.mito.kyoto.ui.components.FriendRequestItem
 @Composable
 fun FriendRequestScreen(viewModel: FriendsViewModel) {
     val requests by viewModel.friendRequests.collectAsState()
-    
+
     if (requests.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(stringResource(R.string.friends_no_requests))
@@ -25,7 +25,7 @@ fun FriendRequestScreen(viewModel: FriendsViewModel) {
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            items(requests, key = { it.request.requestId }) { request ->
+            items(requests, key = { it.requestId }) { request ->
                 FriendRequestItem(
                     request = request,
                     onAccept = { viewModel.acceptFriendRequest(it) },

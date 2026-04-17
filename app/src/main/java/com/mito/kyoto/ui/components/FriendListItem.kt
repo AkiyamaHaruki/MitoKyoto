@@ -14,11 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mito.kyoto.data.local.entities.UserEntity
+import com.mito.kyoto.ui.friends.SimpleUser
 
 @Composable
 fun FriendListItem(
-    user: UserEntity,
+    user: SimpleUser,
     isFriend: Boolean,
     onAddFriend: () -> Unit,
     onDeleteFriend: () -> Unit,
@@ -31,7 +31,6 @@ fun FriendListItem(
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // 头像
         Box(
             modifier = Modifier
                 .size(48.dp)
@@ -45,10 +44,9 @@ fun FriendListItem(
                 fontSize = 20.sp
             )
         }
-        
+
         Spacer(modifier = Modifier.width(12.dp))
-        
-        // 名称和状态
+
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = user.name,
@@ -63,8 +61,7 @@ fun FriendListItem(
                 )
             }
         }
-        
-        // 操作按钮
+
         if (!isFriend) {
             IconButton(onClick = onAddFriend) {
                 Icon(
