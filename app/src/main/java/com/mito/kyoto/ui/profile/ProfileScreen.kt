@@ -107,8 +107,10 @@ fun ProfileScreen() {
             onLanguageSelected = { code ->
                 scope.launch {
                     viewModel.updateLanguage(code)
+                    Toast.makeText(context, "言語を切り替えています...", Toast.LENGTH_SHORT).show()
                     LanguageChangeHelper.shouldRecreate = true
                     showLanguageDialog = false
+                    (context as? android.app.Activity)?.recreate()
                 }
             },
             onDismiss = { showLanguageDialog = false }

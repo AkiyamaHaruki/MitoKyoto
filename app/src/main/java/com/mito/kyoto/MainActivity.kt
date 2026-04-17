@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 初始化语言
         lifecycleScope.launch {
             settingsRepo.initLanguage()
         }
@@ -46,18 +45,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        // 检查是否需要重启以应用新语言
-        if (LanguageChangeHelper.shouldRecreate) {
-            LanguageChangeHelper.shouldRecreate = false
-            recreate()
-        }
-    }
 }
 
-// 辅助对象，用于跨组件传递重启信号
 object LanguageChangeHelper {
     var shouldRecreate = false
 }
