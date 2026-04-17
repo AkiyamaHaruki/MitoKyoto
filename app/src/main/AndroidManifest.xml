@@ -19,16 +19,19 @@
         android:theme="@style/Theme.MitoKyoto.Splash"
         tools:targetApi="31">
 
-        <!-- 主界面Activity，同时也是启动Activity -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.MitoKyoto.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    android:name=".SplashActivity"
+    android:exported="true"
+    android:theme="@style/Theme.FullScreenSplash">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+</activity>
+
+<activity
+    android:name=".MainActivity"
+    android:exported="false" />
 
     </application>
 </manifest>
