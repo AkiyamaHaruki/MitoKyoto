@@ -1,0 +1,15 @@
+<resources>
+    <!-- 主应用主题 -->
+    <style name="Theme.MitoKyoto" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+    </style>
+
+    <!-- 启动页主题（用于SplashActivity） -->
+    <style name="Theme.MitoKyoto.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.MitoKyoto</item>
+    </style>
+</resources>
