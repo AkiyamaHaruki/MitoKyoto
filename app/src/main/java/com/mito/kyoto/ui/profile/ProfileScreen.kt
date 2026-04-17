@@ -40,6 +40,8 @@ fun ProfileScreen() {
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
 
+    val comingSoonText = stringResource(R.string.profile_coming_soon)
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -56,7 +58,6 @@ fun ProfileScreen() {
                 .padding(paddingValues),
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
-            // 用户信息卡片
             item {
                 UserProfileCard(
                     userName = viewModel.userName,
@@ -65,7 +66,6 @@ fun ProfileScreen() {
                 )
             }
 
-            // 功能菜单分组：收藏
             item {
                 SectionHeader(title = stringResource(R.string.profile_content_section))
             }
@@ -74,12 +74,11 @@ fun ProfileScreen() {
                     icon = Icons.Default.Favorite,
                     title = stringResource(R.string.profile_favorites),
                     onClick = {
-                        Toast.makeText(context, stringResource(R.string.profile_coming_soon), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, comingSoonText, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
 
-            // 功能菜单分组：设置
             item {
                 SectionHeader(title = stringResource(R.string.profile_settings_section))
             }
@@ -101,7 +100,6 @@ fun ProfileScreen() {
         }
     }
 
-    // 语言选择对话框
     if (showLanguageDialog) {
         LanguageSelectionDialog(
             currentLanguage = currentLanguage,
@@ -115,7 +113,6 @@ fun ProfileScreen() {
         )
     }
 
-    // 关于对话框
     if (showAboutDialog) {
         AboutDialog(
             onDismiss = { showAboutDialog = false }
@@ -306,7 +303,6 @@ fun AboutDialog(onDismiss: () -> Unit) {
     )
 }
 
-// 手动 ViewModel 工厂（因使用了 AndroidViewModel）
 class ProfileViewModelFactory(private val application: Application) : androidx.lifecycle.ViewModelProvider.Factory {
     override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {

@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Mitotsu</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_community">Community</string>
+    <string name="nav_friends">Friends</string>
+    <string name="nav_profile">Profile</string>
+    <string name="home_company_name">Kyoto Mito Technology Co., Ltd.</string>
+    <string name="home_official_page">Official Homepage</string>
+    <string name="community_title">Community</string>
+    <string name="friends_title">Friends</string>
+    <string name="profile_title">My Page</string>
+    <string name="profile_content_section">Content</string>
+    <string name="profile_favorites">Favorites</string>
+    <string name="profile_settings_section">Settings</string>
+    <string name="profile_language">Language</string>
+    <string name="profile_about">About</string>
+    <string name="profile_company_full">Kyoto Mito Technology Co., Ltd.</string>
+    <string name="profile_user_position">CEO</string>
+    <string name="profile_coming_soon">Coming Soon</string>
+    <string name="language_selection">Select Language</string>
+    <string name="language_japanese">Japanese</string>
+    <string name="language_chinese_tw">Chinese (Taiwan)</string>
+    <string name="language_english">English</string>
+    <string name="cancel">Cancel</string>
+    <string name="about_title">About This App</string>
+    <string name="about_description">Official Communication App</string>
+    <string name="about_version">Version 1.0.0</string>
+    <string name="about_copyright">© 2026 Mito Kyoto Technology</string>
+    <string name="close">Close</string>
+</resources>
