@@ -23,14 +23,38 @@ import com.mito.kyoto.ui.friends.FriendsScreen
 import com.mito.kyoto.ui.home.HomeScreen
 import com.mito.kyoto.ui.profile.ProfileScreen
 import com.mito.kyoto.ui.theme.MitoKyotoTheme
+import java.io.File
+import java.io.FileOutputStream
+import java.io.PrintWriter
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
+            saveCrashLog(throwable)
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
+        
         setContent {
             MitoKyotoTheme {
                 MainApp()
             }
+        }
+    }
+    
+    private fun saveCrashLog(throwable: Throwable) {
+        try {
+            val logFile = File(getExternalFilesDir(null), "crash_log.txt")
+            val fos = FileOutputStream(logFile, true)
+            val pw = PrintWriter(fos)
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            pw.println("========== ${sdf.format(Date())} ==========")
+            throwable.printStackTrace(pw)
+            pw.close()
+        } catch (_: Exception) {
         }
     }
 }
