@@ -1,6 +1,8 @@
 package com.mito.kyoto.ui.profile
 
+import android.app.Application
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,12 +17,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mito.kyoto.R
 import com.mito.kyoto.ui.theme.LocaleManager
 import com.mito.kyoto.ui.theme.getLanguageDisplayName
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 fun ProfileScreen() {
     val context = LocalContext.current
     val viewModel: ProfileViewModel = viewModel(
-        factory = ProfileViewModelFactory(context.applicationContext as android.app.Application)
+        factory = ProfileViewModelFactory(context.applicationContext as Application)
     )
     val currentLanguage by viewModel.currentLanguage.collectAsState()
 
@@ -72,7 +72,6 @@ fun ProfileScreen() {
                     icon = Icons.Default.Favorite,
                     title = "お気に入り",
                     onClick = {
-                        // TODO: 跳转收藏列表
                         Toast.makeText(context, "近日公開予定", Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -107,11 +106,7 @@ fun ProfileScreen() {
             onLanguageSelected = { code ->
                 scope.launch {
                     viewModel.updateLanguage(code)
-                    // 重启 Activity 使语言生效（简单处理）
-                    context.applicationContext.let { appCtx ->
-                        LocaleManager.applyLanguage(appCtx, code)
-                    }
-                    // 实际项目中建议使用 recreate() 或重启整个任务栈，这里用 Toast 提示
+                    LocaleManager.applyLanguage(context.applicationContext, code)
                     Toast.makeText(context, "言語設定を変更しました。アプリを再起動すると反映されます。", Toast.LENGTH_LONG).show()
                 }
                 showLanguageDialog = false
