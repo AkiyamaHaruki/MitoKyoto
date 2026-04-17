@@ -26,40 +26,40 @@ import com.mito.kyoto.ui.friends.FriendsScreen
 import com.mito.kyoto.ui.home.HomeScreen
 import com.mito.kyoto.ui.profile.ProfileScreen
 import com.mito.kyoto.ui.theme.MitoKyotoTheme
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    
+
     private val settingsRepo by lazy { SettingsRepository(this) }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 初始化语言（应用保存的设置）
+        // 初始化语言
         lifecycleScope.launch {
             settingsRepo.initLanguage()
         }
 
         setContent {
-            // 使用一个递增的 key 来强制重组整个 Compose 树
-            var refreshKey by remember { mutableStateOf(0) }
-            
-            // 监听语言变化，每次语言切换后 refreshKey 加 1，触发完全重组
-            LaunchedEffect(Unit) {
-                settingsRepo.getLanguageFlow().collectLatest {
-                    refreshKey++
-                }
-            }
-            
-            // key 变化时，整个 MitoKyotoTheme 和 MainApp 会重新创建，从而刷新所有 stringResource
-            key(refreshKey) {
-                MitoKyotoTheme {
-                    MainApp()
-                }
+            MitoKyotoTheme {
+                MainApp()
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // 检查是否需要重启以应用新语言
+        if (LanguageChangeHelper.shouldRecreate) {
+            LanguageChangeHelper.shouldRecreate = false
+            recreate()
+        }
+    }
+}
+
+// 辅助对象，用于跨组件传递重启信号
+object LanguageChangeHelper {
+    var shouldRecreate = false
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

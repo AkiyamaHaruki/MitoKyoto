@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mito.kyoto.LanguageChangeHelper
 import com.mito.kyoto.R
 import com.mito.kyoto.ui.theme.LocaleManager
 import com.mito.kyoto.ui.theme.getLanguageDisplayName
@@ -100,19 +101,19 @@ fun ProfileScreen() {
         }
     }
 
-if (showLanguageDialog) {
-    LanguageSelectionDialog(
-        currentLanguage = currentLanguage,
-        onLanguageSelected = { code ->
-            scope.launch {
-                viewModel.updateLanguage(code)
-                // 不需要任何额外操作，MainActivity 中的 flow 会自动触发重组
-                showLanguageDialog = false
-            }
-        },
-        onDismiss = { showLanguageDialog = false }
-    )
-}
+    if (showLanguageDialog) {
+        LanguageSelectionDialog(
+            currentLanguage = currentLanguage,
+            onLanguageSelected = { code ->
+                scope.launch {
+                    viewModel.updateLanguage(code)
+                    LanguageChangeHelper.shouldRecreate = true
+                    showLanguageDialog = false
+                }
+            },
+            onDismiss = { showLanguageDialog = false }
+        )
+    }
 
     if (showAboutDialog) {
         AboutDialog(
