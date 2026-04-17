@@ -1,9 +1,12 @@
 package com.mito.kyoto.ui.community
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 data class BannerItem(
     val id: Int,
@@ -112,11 +115,9 @@ class CommunityViewModel : ViewModel() {
 
     fun selectCategory(category: String) {
         _selectedCategory.value = category
-        // 模拟切换分类时刷新数据（可替换为实际请求）
         _isLoading.value = true
-        // 模拟网络延迟
-        kotlinx.coroutines.GlobalScope.launch {
-            kotlinx.coroutines.delay(500)
+        viewModelScope.launch {
+            delay(500)
             loadMockData()
             _isLoading.value = false
         }

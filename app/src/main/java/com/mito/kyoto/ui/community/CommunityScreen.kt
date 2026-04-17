@@ -1,5 +1,6 @@
 package com.mito.kyoto.ui.community
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -84,7 +85,10 @@ fun CommunityScreen(
                 // 帖子列表
                 if (isLoading) {
                     item {
-                        Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth().padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             CircularProgressIndicator()
                         }
                     }
@@ -159,7 +163,7 @@ fun CategoryTabs(
         contentColor = MaterialTheme.colorScheme.primary,
         edgePadding = 16.dp,
         indicator = { tabPositions ->
-            TabRowDefaults.SecondaryIndicator(
+            TabRowDefaults.Indicator(
                 modifier = Modifier.tabIndicatorOffset(tabPositions[categories.indexOf(selectedCategory)]),
                 height = 3.dp,
                 color = MaterialTheme.colorScheme.primary
