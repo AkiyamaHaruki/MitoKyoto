@@ -27,25 +27,12 @@ import com.mito.kyoto.ui.friends.FriendsScreen
 import com.mito.kyoto.ui.home.HomeScreen
 import com.mito.kyoto.ui.profile.ProfileScreen
 import com.mito.kyoto.ui.theme.MitoKyotoTheme
-import java.util.*
 
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // 应用已保存的语言
-        applySavedLanguage()
-
-        setContent {
-            MitoKyotoTheme {
-                MainApp()
-            }
-        }
-    }
-
-    private fun applySavedLanguage() {
-        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+    override fun attachBaseContext(newBase: Context) {
+        // 在最早阶段应用已保存的语言，确保 Configuration 正确
+        val prefs = newBase.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
         val languageCode = prefs.getString("app_language", "ja") ?: "ja"
         val localeList = when (languageCode) {
             "ja" -> LocaleListCompat.forLanguageTags("ja")
@@ -54,12 +41,23 @@ class MainActivity : ComponentActivity() {
             else -> LocaleListCompat.forLanguageTags("ja")
         }
         AppCompatDelegate.setApplicationLocales(localeList)
+        super.attachBaseContext(newBase)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MitoKyotoTheme {
+                MainApp()
+            }
+        }
     }
 
     companion object {
         fun saveLanguageAndRecreate(activity: MainActivity, languageCode: String) {
             val prefs = activity.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
             prefs.edit().putString("app_language", languageCode).apply()
+            // 立即重启 Activity，由于 attachBaseContext 已处理新语言，重启后即刻生效
             activity.recreate()
         }
     }
