@@ -7,6 +7,8 @@
     <string name="home_company_name">日本京都水戶津科技株式會社</string>
     <string name="home_official_page">官方主頁</string>
     <string name="community_title">社群</string>
+    <string name="community_search">搜尋</string>
+    <string name="community_notifications">通知</string>
     <string name="friends_title">好友</string>
     <string name="friends_tab_friends">好友</string>
     <string name="friends_tab_requests">申請</string>

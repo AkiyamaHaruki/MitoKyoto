@@ -7,6 +7,8 @@
     <string name="home_company_name">Kyoto Mito Technology Co., Ltd.</string>
     <string name="home_official_page">Official Homepage</string>
     <string name="community_title">Community</string>
+    <string name="community_search">Search</string>
+    <string name="community_notifications">Notifications</string>
     <string name="friends_title">Friends</string>
     <string name="friends_tab_friends">Friends</string>
     <string name="friends_tab_requests">Requests</string>
