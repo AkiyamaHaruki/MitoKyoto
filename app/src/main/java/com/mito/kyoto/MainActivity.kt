@@ -1,8 +1,10 @@
 package com.mito.kyoto
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -15,29 +17,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.lifecycleScope
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mito.kyoto.data.repository.SettingsRepository
 import com.mito.kyoto.ui.community.CommunityScreen
 import com.mito.kyoto.ui.friends.FriendsScreen
 import com.mito.kyoto.ui.home.HomeScreen
 import com.mito.kyoto.ui.profile.ProfileScreen
 import com.mito.kyoto.ui.theme.MitoKyotoTheme
-import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : ComponentActivity() {
-
-    private val settingsRepo by lazy { SettingsRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            settingsRepo.initLanguage()
-        }
+        // 应用已保存的语言
+        applySavedLanguage()
 
         setContent {
             MitoKyotoTheme {
@@ -45,10 +43,26 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
-object LanguageChangeHelper {
-    var shouldRecreate = false
+    private fun applySavedLanguage() {
+        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val languageCode = prefs.getString("app_language", "ja") ?: "ja"
+        val localeList = when (languageCode) {
+            "ja" -> LocaleListCompat.forLanguageTags("ja")
+            "zh-TW" -> LocaleListCompat.forLanguageTags("zh-TW")
+            "en" -> LocaleListCompat.forLanguageTags("en")
+            else -> LocaleListCompat.forLanguageTags("ja")
+        }
+        AppCompatDelegate.setApplicationLocales(localeList)
+    }
+
+    companion object {
+        fun saveLanguageAndRecreate(activity: MainActivity, languageCode: String) {
+            val prefs = activity.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+            prefs.edit().putString("app_language", languageCode).apply()
+            activity.recreate()
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

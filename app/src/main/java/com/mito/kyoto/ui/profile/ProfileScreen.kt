@@ -1,6 +1,5 @@
 package com.mito.kyoto.ui.profile
 
-import android.app.Application
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,25 +20,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mito.kyoto.LanguageChangeHelper
+import com.mito.kyoto.MainActivity
 import com.mito.kyoto.R
-import com.mito.kyoto.ui.theme.LocaleManager
-import com.mito.kyoto.ui.theme.getLanguageDisplayName
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen() {
     val context = LocalContext.current
-    val viewModel: ProfileViewModel = viewModel(
-        factory = ProfileViewModelFactory(context.applicationContext as Application)
-    )
-    val currentLanguage by viewModel.currentLanguage.collectAsState()
-
-    val scope = rememberCoroutineScope()
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
+
+    // 获取当前语言显示名称
+    val currentLanguageCode = remember {
+        context.getSharedPreferences("app_settings", android.content.Context.MODE_PRIVATE)
+            .getString("app_language", "ja") ?: "ja"
+    }
+    val currentLanguageDisplay = when (currentLanguageCode) {
+        "ja" -> "日本語"
+        "zh-TW" -> "台灣中國語"
+        "en" -> "English"
+        else -> "日本語"
+    }
 
     val comingSoonText = stringResource(R.string.profile_coming_soon)
 
@@ -61,7 +62,7 @@ fun ProfileScreen() {
         ) {
             item {
                 UserProfileCard(
-                    userName = viewModel.userName,
+                    userName = "秋山 陽",
                     userPosition = stringResource(R.string.profile_user_position),
                     companyName = stringResource(R.string.profile_company_full)
                 )
@@ -87,7 +88,7 @@ fun ProfileScreen() {
                 MenuItem(
                     icon = Icons.Default.Language,
                     title = stringResource(R.string.profile_language),
-                    trailingText = getLanguageDisplayName(currentLanguage),
+                    trailingText = currentLanguageDisplay,
                     onClick = { showLanguageDialog = true }
                 )
             }
@@ -103,15 +104,13 @@ fun ProfileScreen() {
 
     if (showLanguageDialog) {
         LanguageSelectionDialog(
-            currentLanguage = currentLanguage,
+            currentLanguage = currentLanguageCode,
             onLanguageSelected = { code ->
-                scope.launch {
-                    viewModel.updateLanguage(code)
-                    Toast.makeText(context, "言語を切り替えています...", Toast.LENGTH_SHORT).show()
-                    LanguageChangeHelper.shouldRecreate = true
-                    showLanguageDialog = false
-                    (context as? android.app.Activity)?.recreate()
+                (context as? MainActivity)?.let { activity ->
+                    MainActivity.saveLanguageAndRecreate(activity, code)
+                    Toast.makeText(context, "再起動します...", Toast.LENGTH_SHORT).show()
                 }
+                showLanguageDialog = false
             },
             onDismiss = { showLanguageDialog = false }
         )
@@ -254,9 +253,9 @@ fun LanguageSelectionDialog(
         text = {
             Column {
                 listOf(
-                    LocaleManager.LANG_JA to stringResource(R.string.language_japanese),
-                    LocaleManager.LANG_ZH_TW to stringResource(R.string.language_chinese_tw),
-                    LocaleManager.LANG_EN to stringResource(R.string.language_english)
+                    "ja" to stringResource(R.string.language_japanese),
+                    "zh-TW" to stringResource(R.string.language_chinese_tw),
+                    "en" to stringResource(R.string.language_english)
                 ).forEach { (code, name) ->
                     Row(
                         modifier = Modifier
@@ -305,14 +304,4 @@ fun AboutDialog(onDismiss: () -> Unit) {
             }
         }
     )
-}
-
-class ProfileViewModelFactory(private val application: Application) : androidx.lifecycle.ViewModelProvider.Factory {
-    override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ProfileViewModel(application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }
