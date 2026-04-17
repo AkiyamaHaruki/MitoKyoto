@@ -17,6 +17,6 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, 5000) // 延迟5秒，可根据需要调整
+        }, 2500)
     }
 }

@@ -100,18 +100,19 @@ fun ProfileScreen() {
         }
     }
 
-    if (showLanguageDialog) {
-        LanguageSelectionDialog(
-            currentLanguage = currentLanguage,
-            onLanguageSelected = { code ->
-                scope.launch {
-                    viewModel.updateLanguage(code)
-                    showLanguageDialog = false
-                }
-            },
-            onDismiss = { showLanguageDialog = false }
-        )
-    }
+if (showLanguageDialog) {
+    LanguageSelectionDialog(
+        currentLanguage = currentLanguage,
+        onLanguageSelected = { code ->
+            scope.launch {
+                viewModel.updateLanguage(code)
+                // 不需要任何额外操作，MainActivity 中的 flow 会自动触发重组
+                showLanguageDialog = false
+            }
+        },
+        onDismiss = { showLanguageDialog = false }
+    )
+}
 
     if (showAboutDialog) {
         AboutDialog(
