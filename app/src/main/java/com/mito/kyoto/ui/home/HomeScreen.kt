@@ -5,7 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mito.kyoto.R
 
 @Composable
 fun HomeScreen() {
@@ -14,8 +16,8 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("日本京都水戸津科技株式会社", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(R.string.home_company_name), style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("公式ホームページ", style = MaterialTheme.typography.bodyLarge)
+        Text(stringResource(R.string.home_official_page), style = MaterialTheme.typography.bodyLarge)
     }
 }

@@ -17,10 +17,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mito.kyoto.R
 import com.mito.kyoto.ui.theme.LocaleManager
 import com.mito.kyoto.ui.theme.getLanguageDisplayName
 import kotlinx.coroutines.launch
@@ -41,7 +43,7 @@ fun ProfileScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("マイページ") },
+                title = { Text(stringResource(R.string.profile_title)) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.White
                 )
@@ -58,33 +60,33 @@ fun ProfileScreen() {
             item {
                 UserProfileCard(
                     userName = viewModel.userName,
-                    userPosition = viewModel.userPosition,
-                    avatarUrl = viewModel.userAvatarUrl
+                    userPosition = stringResource(R.string.profile_user_position),
+                    companyName = stringResource(R.string.profile_company_full)
                 )
             }
 
             // 功能菜单分组：收藏
             item {
-                SectionHeader(title = "コンテンツ")
+                SectionHeader(title = stringResource(R.string.profile_content_section))
             }
             item {
                 MenuItem(
                     icon = Icons.Default.Favorite,
-                    title = "お気に入り",
+                    title = stringResource(R.string.profile_favorites),
                     onClick = {
-                        Toast.makeText(context, "近日公開予定", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, stringResource(R.string.profile_coming_soon), Toast.LENGTH_SHORT).show()
                     }
                 )
             }
 
             // 功能菜单分组：设置
             item {
-                SectionHeader(title = "設定")
+                SectionHeader(title = stringResource(R.string.profile_settings_section))
             }
             item {
                 MenuItem(
                     icon = Icons.Default.Language,
-                    title = "言語",
+                    title = stringResource(R.string.profile_language),
                     trailingText = getLanguageDisplayName(currentLanguage),
                     onClick = { showLanguageDialog = true }
                 )
@@ -92,7 +94,7 @@ fun ProfileScreen() {
             item {
                 MenuItem(
                     icon = Icons.Default.Info,
-                    title = "このアプリについて",
+                    title = stringResource(R.string.profile_about),
                     onClick = { showAboutDialog = true }
                 )
             }
@@ -106,10 +108,8 @@ fun ProfileScreen() {
             onLanguageSelected = { code ->
                 scope.launch {
                     viewModel.updateLanguage(code)
-                    LocaleManager.applyLanguage(context.applicationContext, code)
-                    Toast.makeText(context, "言語設定を変更しました。アプリを再起動すると反映されます。", Toast.LENGTH_LONG).show()
+                    showLanguageDialog = false
                 }
-                showLanguageDialog = false
             },
             onDismiss = { showLanguageDialog = false }
         )
@@ -127,7 +127,7 @@ fun ProfileScreen() {
 fun UserProfileCard(
     userName: String,
     userPosition: String,
-    avatarUrl: String
+    companyName: String
 ) {
     Card(
         modifier = Modifier
@@ -140,7 +140,6 @@ fun UserProfileCard(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // 头像占位
             Box(
                 modifier = Modifier
                     .size(60.dp)
@@ -168,7 +167,7 @@ fun UserProfileCard(
                     color = Color.Gray
                 )
                 Text(
-                    text = "日本京都水戸津科技株式会社",
+                    text = companyName,
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
@@ -250,13 +249,13 @@ fun LanguageSelectionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("言語選択") },
+        title = { Text(stringResource(R.string.language_selection)) },
         text = {
             Column {
                 listOf(
-                    LocaleManager.LANG_JA to "日本語",
-                    LocaleManager.LANG_ZH_TW to "台灣中國語",
-                    LocaleManager.LANG_EN to "English"
+                    LocaleManager.LANG_JA to stringResource(R.string.language_japanese),
+                    LocaleManager.LANG_ZH_TW to stringResource(R.string.language_chinese_tw),
+                    LocaleManager.LANG_EN to stringResource(R.string.language_english)
                 ).forEach { (code, name) ->
                     Row(
                         modifier = Modifier
@@ -277,7 +276,7 @@ fun LanguageSelectionDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("キャンセル")
+                Text(stringResource(R.string.cancel))
             }
         }
     )
@@ -287,21 +286,21 @@ fun LanguageSelectionDialog(
 fun AboutDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("このアプリについて") },
+        title = { Text(stringResource(R.string.about_title)) },
         text = {
             Column {
-                Text("日本京都水戸津科技株式会社", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.profile_company_full), fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("公式コミュニケーションアプリ")
+                Text(stringResource(R.string.about_description))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text("バージョン 1.0.0")
+                Text(stringResource(R.string.about_version))
                 Spacer(modifier = Modifier.height(16.dp))
-                Text("© 2026 Mito Kyoto Technology")
+                Text(stringResource(R.string.about_copyright))
             }
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("閉じる")
+                Text(stringResource(R.string.close))
             }
         }
     )
