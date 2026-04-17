@@ -1,12 +1,12 @@
 <resources>
     <!-- 启动页主题（使用SplashScreen API） -->
     <style name="Theme.MitoKyoto.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/white</item>
-        <!-- 设置启动图标（可以是矢量动画或静态图） -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
-        <!-- 启动后恢复的主题（用于MainActivity） -->
-        <item name="postSplashScreenTheme">@style/Theme.MitoKyoto</item>
-    </style>
+    <item name="windowSplashScreenBackground">@android:color/white</item>
+    <!-- 使用 nodpi 目录下的图片，系统会自动按原始比例居中显示 -->
+    <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+    <item name="postSplashScreenTheme">@style/Theme.MitoKyoto</item>
+    <item name="windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
+</style>
 
     <!-- 主应用主题（Compose用） -->
     <style name="Theme.MitoKyoto" parent="Theme.MaterialComponents.Light.NoActionBar">
