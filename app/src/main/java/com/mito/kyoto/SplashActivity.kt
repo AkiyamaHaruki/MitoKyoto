@@ -15,6 +15,14 @@ class SplashActivity : AppCompatActivity() {
     private var hasNavigated = false
     private val handler = Handler(Looper.getMainLooper())
 
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    // 直接跳转主界面，不加载视频
+    startActivity(Intent(this, MainActivity::class.java))
+    finish()
+}
+
+/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -47,6 +55,7 @@ class SplashActivity : AppCompatActivity() {
             }
         }, 5000)
     }
+*/
 
     private fun navigateToMain() {
         if (hasNavigated) return
